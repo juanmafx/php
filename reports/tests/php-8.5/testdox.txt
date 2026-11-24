@@ -23,11 +23,16 @@ Credential Verifier (PhpLabs\Tests\Unit\Security\CredentialVerifier)
  [x] Fails closed without hash
  [x] Rejects legacy md 5 hash
  [x] Rejects oversized password
+ [x] Rejects password with nul byte
+ [x] Rejects bcrypt input beyond its limit
 
 Csrf Guard (PhpLabs\Tests\Unit\Security\CsrfGuard)
  [x] Token is stable and valid
  [x] Rejects missing or wrong token
  [x] Rotation invalidates previous token
+
+Failure Mode (PhpLabs\Tests\EndToEnd\FailureMode)
+ [x] Internal errors do not disclose details
 
 Guess Evaluator (PhpLabs\Tests\Unit\Domain\GuessEvaluator)
  [x] Evaluates guess with data set "missing"
@@ -43,6 +48,12 @@ Guess Evaluator (PhpLabs\Tests\Unit\Domain\GuessEvaluator)
  [x] Evaluates guess with data set "decimal form"
  [x] Every outcome has a message
 
+Hash Password Command (PhpLabs\Tests\EndToEnd\HashPasswordCommand)
+ [x] Creates a verifiable hash
+ [x] Rejects unusable passwords with data set "too short"
+ [x] Rejects unusable passwords with data set "nul byte"
+ [x] Rejects unusable passwords with data set "oversized"
+
 Http Server (PhpLabs\Tests\EndToEnd\HttpServer)
  [x] Public pages do not start a session
  [x] Session cookie is hardened
@@ -56,6 +67,12 @@ Login Throttle (PhpLabs\Tests\Unit\Security\LoginThrottle)
  [x] Window expires
  [x] Reset clears failures
  [x] State file is private and does not contain client key
+ [x] Acquire stops at the limit
+ [x] Concurrent processes cannot exceed the limit
+ [x] Ipv 6 clients share a slash 64 bucket
+ [x] Ipv 4 mapped address shares the ipv 4 bucket
+ [x] Refuses directory writable by others
+ [x] Refuses symlinked directory
 
 Md5Pin Recovery (PhpLabs\Tests\Unit\Domain\Md5PinRecovery)
  [x] Recovers pin and stops at first match with data set #0
@@ -70,6 +87,12 @@ Md5Pin Recovery (PhpLabs\Tests\Unit\Domain\Md5PinRecovery)
  [x] Rejects invalid digest with data set #2
  [x] Rejects invalid digest with data set #3
  [x] Rejects invalid digest with data set #4
+
+Native Session Store (PhpLabs\Tests\Unit\Security\NativeSessionStore)
+ [x] Active session survives
+ [x] Idle session is cleared
+ [x] Absolute lifetime is enforced despite activity
+ [x] Regeneration restarts the absolute lifetime
 
 Round Judge (PhpLabs\Tests\Unit\Domain\RoundJudge)
  [x] Judges round with data set #0

@@ -39,4 +39,20 @@ final class CredentialVerifierTest extends TestCase
 
         self::assertFalse((new CredentialVerifier(password_hash($password, PASSWORD_ARGON2ID)))->verify($password));
     }
+
+    public function testRejectsPasswordWithNulByte(): void
+    {
+        $verifier = new CredentialVerifier(password_hash('abcdefghijkl', PASSWORD_BCRYPT));
+
+        self::assertFalse($verifier->verify("abcdefghijkl\0suffix"));
+    }
+
+    public function testRejectsBcryptInputBeyondItsLimit(): void
+    {
+        $password = str_repeat('a', 72);
+        $verifier = new CredentialVerifier(password_hash($password, PASSWORD_BCRYPT));
+
+        self::assertTrue($verifier->verify($password));
+        self::assertFalse($verifier->verify($password . 'different-suffix'));
+    }
 }

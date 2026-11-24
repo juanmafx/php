@@ -29,11 +29,15 @@ final readonly class TemplateRenderer
         $escape = static fn (string|int|float $value): string => htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
         ob_start();
-        (static function (string $templatePath, array $templateData, callable $e): void {
-            extract($templateData, EXTR_SKIP);
-            require $templatePath;
-        })($path, $data, $escape);
+        try {
+            (static function (string $templatePath, array $templateData, callable $e): void {
+                extract($templateData, EXTR_SKIP);
+                require $templatePath;
+            })($path, $data, $escape);
 
-        return (string) ob_get_clean();
+            return (string) ob_get_contents();
+        } finally {
+            ob_end_clean();
+        }
     }
 }

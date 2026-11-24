@@ -52,9 +52,10 @@ final readonly class AuthController
         if (mb_strlen($name, 'UTF-8') > self::MAX_NAME_LENGTH || !mb_check_encoding($name, 'UTF-8')) {
             return $this->form('User name is too long or invalid.', 422);
         }
+        if (!$this->throttle->tryAcquire($request->clientIp)) {
+            return $this->form('Too many failed attempts. Try again later.', 429);
+        }
         if (!$this->credentials->verify($password)) {
-            $this->throttle->recordFailure($request->clientIp);
-
             return $this->form('Incorrect credentials.', 401);
         }
 

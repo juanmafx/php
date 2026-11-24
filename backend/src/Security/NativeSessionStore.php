@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace PhpLabs\Security;
 
+use Closure;
 use RuntimeException;
 
 final readonly class NativeSessionStore implements SessionStore
 {
     private const string COOKIE_NAME = 'php_labs_session';
+    private const string STARTED_AT_KEY = '_started_at';
+    private const string LAST_SEEN_AT_KEY = '_last_seen_at';
+    private const int IDLE_TIMEOUT_SECONDS = 1800;
+    private const int ABSOLUTE_TIMEOUT_SECONDS = 28800;
 
-    public function __construct(private bool $secureCookie)
+    private Closure $clock;
+
+    public function __construct(private bool $secureCookie, ?Closure $clock = null)
     {
+        $this->clock = $clock ?? time(...);
     }
 
     public function get(string $key): ?string
@@ -38,6 +46,7 @@ final readonly class NativeSessionStore implements SessionStore
     {
         $this->start();
         session_regenerate_id(true);
+        $_SESSION[self::STARTED_AT_KEY] = $this->now();
     }
 
     public function destroy(): void
@@ -75,5 +84,31 @@ final readonly class NativeSessionStore implements SessionStore
         if (!$started) {
             throw new RuntimeException('Unable to start the session.');
         }
+
+        $this->enforceLifetime();
+    }
+
+    private function enforceLifetime(): void
+    {
+        $now = $this->now();
+        $startedAt = $_SESSION[self::STARTED_AT_KEY] ?? null;
+        $lastSeenAt = $_SESSION[self::LAST_SEEN_AT_KEY] ?? null;
+        $isExpired = is_int($startedAt) && is_int($lastSeenAt)
+            && ($now - $lastSeenAt >= self::IDLE_TIMEOUT_SECONDS || $now - $startedAt >= self::ABSOLUTE_TIMEOUT_SECONDS);
+
+        if ($isExpired) {
+            $_SESSION = [];
+            session_regenerate_id(true);
+        }
+
+        $_SESSION[self::STARTED_AT_KEY] = !$isExpired && is_int($startedAt) ? $startedAt : $now;
+        $_SESSION[self::LAST_SEEN_AT_KEY] = $now;
+    }
+
+    private function now(): int
+    {
+        $now = ($this->clock)();
+
+        return is_int($now) ? $now : time();
     }
 }

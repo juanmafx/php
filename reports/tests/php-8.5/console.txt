@@ -4,6 +4,6 @@ PHPUnit 13.4.8 by Sebastian Bergmann and contributors.
 Runtime:       PHP 8.5.13
 Configuration: /app/phpunit.xml
 
-Time: 00:08.400, Memory: 20.00 MB
+Time: 00:07.628, Memory: 20.00 MB
 
-OK (84 tests, 168 assertions)
+OK (101 tests, 215 assertions)

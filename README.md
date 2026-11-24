@@ -50,11 +50,13 @@ Requirements: PHP 8.4.1 or newer with `mbstring` and `session`, plus Composer. T
 
 ```bash
 composer install --no-scripts --no-plugins
-export PHP_LABS_PASSWORD_HASH="$(php backend/bin/hash-password)"
+IFS= read -rsp 'Password: ' LABS_PASSWORD; echo
+export PHP_LABS_PASSWORD_HASH="$(printf '%s' "$LABS_PASSWORD" | php backend/bin/hash-password)"
+unset LABS_PASSWORD
 php -S 127.0.0.1:8080 -t backend/public backend/public/index.php
 ```
 
-`hash-password` reads the password from standard input. Type a password of at least 12 bytes, then press Enter and Ctrl+D. Open <http://127.0.0.1:8080>.
+`hash-password` reads the password from standard input and accepts 12 to 4,096 bytes, or 12 to 72 bytes when PHP lacks Argon2id and it falls back to bcrypt. Open <http://127.0.0.1:8080>.
 
 The built-in PHP server is for local development only.
 
@@ -69,7 +71,7 @@ The built-in PHP server is for local development only.
 | Variable | Required | Description |
 | --- | --- | --- |
 | `PHP_LABS_PASSWORD_HASH` | For login | Argon2id or bcrypt hash. Without a valid hash, login stays disabled |
-| `PHP_LABS_THROTTLE_DIR` | No | Directory for login throttle state. Defaults to a folder in the system temp directory |
+| `PHP_LABS_THROTTLE_DIR` | No | Directory for login throttle state. Defaults to a folder in the system temp directory. It must be owned by the application user with no group or other access (mode `0700`), or requests fail with a 500 |
 
 The application reads these from the process environment. It does not load `.env` files.
 
@@ -94,12 +96,15 @@ Without local PHP extensions, run the suite in the official image:
 docker run --rm --network none --user "$(id -u):$(id -g)" -v "$PWD:/app" -w /app php:8.5-cli vendor/bin/phpunit
 ```
 
-Reports from actual runs on PHP 8.4 and 8.5 are in [reports/tests/](reports/tests/). CI runs validation, dependency audit, PHPStan, and PHPUnit on both versions.
+Reports from actual runs on PHP 8.4 and 8.5 are in [reports/tests/](reports/tests/). [The CI workflow](.github/workflows/ci.yml) defines validation, dependency audit, PHPStan, and PHPUnit jobs for both versions.
 
 ## Security notes
 
 - Passwords are verified with Argon2id or bcrypt, and login fails closed when unconfigured.
 - All POST routes require a CSRF token, and session cookies are `HttpOnly` and `SameSite=Strict`.
+- Login allows five attempts per client per 15-minute window, counted atomically. IPv6 clients are grouped by /64.
+- Sessions expire after 30 idle minutes and 8 hours in total, enforced on the server.
+- Internal errors return a generic 500 response and are written to the PHP error log without request data.
 - Dynamic output goes through a central escaping helper, and a strict Content Security Policy blocks scripts.
 - The MD5 tool is intentionally limited to four-digit PINs and exists for education.
 

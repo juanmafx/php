@@ -23,6 +23,11 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Replaced the hardcoded MD5 credential with Argon2id or bcrypt verification.
 - Added CSRF protection, login throttling, hardened sessions, and security headers.
 - Replaced loose hash comparison with validated, timing-safe comparison.
+- Made login throttling atomic under concurrency and grouped IPv6 clients by /64.
+- Enforced server-side idle and absolute session timeouts.
+- Required a private throttle directory, which blocks symlink file overwrites.
+- Replaced displayed errors with a generic 500 response and removed `X-Powered-By`.
+- Rejected NUL bytes and bcrypt input beyond 72 bytes.
 
 ### Removed
 

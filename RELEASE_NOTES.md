@@ -1,6 +1,6 @@
 # Release Notes: 1.0.0
 
-**Status:** prepared, not tagged or published.
+**Status:** prepared. No Git tag or GitHub release has been created.
 
 Version 1.0.0 is the first versioned release. It rebuilds the 2018 course exercises as one typed PHP 8.4+ application.
 
