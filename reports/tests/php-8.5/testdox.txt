@@ -1,0 +1,102 @@
+Application (PhpLabs\Tests\Integration\Application)
+ [x] Every response carries security headers
+ [x] Hsts is sent only over https
+ [x] Guess escapes reflected input
+ [x] Guess ignores array input
+ [x] Hash recovery finds pin
+ [x] Hash recovery rejects invalid digest and escapes it
+ [x] Unknown route and wrong method
+ [x] Post without csrf token is rejected
+ [x] Game requires login
+ [x] Successful login regenerates session and rotates csrf
+ [x] Wrong password is generic and throttled
+ [x] Login requires both fields
+ [x] Login rejects oversized name
+ [x] Login disabled without configured hash
+ [x] Play escapes player name and reports result
+ [x] Matrix and invalid move
+ [x] Logout clears player
+ [x] Stylesheet is served with css type
+
+Credential Verifier (PhpLabs\Tests\Unit\Security\CredentialVerifier)
+ [x] Verifies modern hash
+ [x] Fails closed without hash
+ [x] Rejects legacy md 5 hash
+ [x] Rejects oversized password
+
+Csrf Guard (PhpLabs\Tests\Unit\Security\CsrfGuard)
+ [x] Token is stable and valid
+ [x] Rejects missing or wrong token
+ [x] Rotation invalidates previous token
+
+Guess Evaluator (PhpLabs\Tests\Unit\Domain\GuessEvaluator)
+ [x] Evaluates guess with data set "missing"
+ [x] Evaluates guess with data set "empty"
+ [x] Evaluates guess with data set "text"
+ [x] Evaluates guess with data set "markup"
+ [x] Evaluates guess with data set "oversized"
+ [x] Evaluates guess with data set "low"
+ [x] Evaluates guess with data set "negative"
+ [x] Evaluates guess with data set "high"
+ [x] Evaluates guess with data set "overflow"
+ [x] Evaluates guess with data set "exact"
+ [x] Evaluates guess with data set "decimal form"
+ [x] Every outcome has a message
+
+Http Server (PhpLabs\Tests\EndToEnd\HttpServer)
+ [x] Public pages do not start a session
+ [x] Session cookie is hardened
+ [x] Forged session id is not adopted
+ [x] Full login play logout flow
+ [x] Stylesheet satisfies content security policy
+ [x] Source files are not served
+
+Login Throttle (PhpLabs\Tests\Unit\Security\LoginThrottle)
+ [x] Blocks after five failures
+ [x] Window expires
+ [x] Reset clears failures
+ [x] State file is private and does not contain client key
+
+Md5Pin Recovery (PhpLabs\Tests\Unit\Domain\Md5PinRecovery)
+ [x] Recovers pin and stops at first match with data set #0
+ [x] Recovers pin and stops at first match with data set #1
+ [x] Recovers pin and stops at first match with data set #2
+ [x] Recovers pin and stops at first match with data set #3
+ [x] Accepts uppercase digest
+ [x] Reports exhausted keyspace
+ [x] Does not treat magic hash as numeric equality
+ [x] Rejects invalid digest with data set #0
+ [x] Rejects invalid digest with data set #1
+ [x] Rejects invalid digest with data set #2
+ [x] Rejects invalid digest with data set #3
+ [x] Rejects invalid digest with data set #4
+
+Round Judge (PhpLabs\Tests\Unit\Domain\RoundJudge)
+ [x] Judges round with data set #0
+ [x] Judges round with data set #1
+ [x] Judges round with data set #2
+ [x] Judges round with data set #3
+ [x] Judges round with data set #4
+ [x] Judges round with data set #5
+ [x] Judges round with data set #6
+ [x] Judges round with data set #7
+ [x] Judges round with data set #8
+ [x] Matrix covers every combination
+ [x] Parses move input with data set #0
+ [x] Parses move input with data set #1
+ [x] Parses move input with data set #2
+ [x] Parses move input with data set #3
+ [x] Parses move input with data set #4
+ [x] Parses move input with data set #5
+ [x] Parses move input with data set #6
+ [x] Parses move input with data set #7
+ [x] Parses move input with data set #8
+ [x] Random source eventually produces every move
+
+Schema (PhpLabs\Tests\Integration\Schema)
+ [x] Creates expected tables
+ [x] Schema is idempotent
+ [x] Rejects invalid move
+ [x] Enforces foreign key
+ [x] Deleting player cascades rounds
+

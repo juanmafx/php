@@ -1,0 +1,9 @@
+parameters:
+    level: max
+    tmpDir: .phpstan-cache
+    paths:
+        - backend/src
+        - backend/public
+        - tests
+    ignoreErrors:
+        - identifier: missingType.iterableValue
