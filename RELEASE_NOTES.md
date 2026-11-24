@@ -1,22 +1,15 @@
-# Release Notes: 1.0.0
+# Release Notes: 1.0.1
 
-**Status:** prepared. No Git tag or GitHub release has been created.
+Documentation-only patch release. Code behaviour is unchanged from 1.0.0.
 
-Version 1.0.0 is the first versioned release. It rebuilds the 2018 course exercises as one typed PHP 8.4+ application.
+## Changes
 
-## Highlights
+- The changelog, notice, security audit, and these notes now reflect that 1.0.0 is published and that the public Git history was rewritten on 2026-11-24. The 2018 single-file scripts and `rps.zip` are no longer in any branch or tag.
+- The audit item about removed files in Git history is marked resolved. The old course demo credential must still be treated as compromised and never reused.
 
-- Guessing game, MD5 PIN recovery demo, and a complete Rock Paper Scissors game.
-- Clear `backend/` and `frontend/` separation with no runtime Composer dependencies.
-- Argon2id or bcrypt login, CSRF protection, throttling, hardened sessions, and a strict CSP.
-- Automated tests and PHPStan, verified on PHP 8.4 and 8.5.
+## Upgrade notes
 
-## Breaking changes
-
-- Requires PHP 8.4.1 or newer.
-- Old `.php` URLs are replaced by the routes listed in the README.
-- Login requires `PHP_LABS_PASSWORD_HASH`. The old course credential no longer works.
-- The web document root must be `backend/public`.
+No action is needed when upgrading from 1.0.0. The breaking changes from the 2018 code, including the PHP 8.4.1 requirement and `PHP_LABS_PASSWORD_HASH`, are listed in [CHANGELOG.md](CHANGELOG.md) and the README.
 
 ## Known limitations
 

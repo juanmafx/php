@@ -11,5 +11,4 @@ This repository is derived from coursework for
 | Guessing Game | Rewrite of the course's guessing game exercise |
 
 The upstream copyright and BSD-2-Clause license text are kept verbatim in
-[third_party/wa4e/LICENSE](third_party/wa4e/LICENSE). The original files remain
-available in this repository's Git history.
+[third_party/wa4e/LICENSE](third_party/wa4e/LICENSE).

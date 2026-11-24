@@ -33,12 +33,17 @@ The 2018 pages already escaped the reflected guess, name, and result values. The
 
 | Severity | Item | Status |
 | --- | --- | --- |
-| Low | Removed files, including a published course demo credential, remain in Git history | History was not rewritten. The value is a public course sample and must never be reused |
 | Low | No multi-factor authentication | Not implemented; the app uses a single demo login |
 | Low | Throttle is keyed by client address | A shared address or IPv6 /64 shares a bucket, and distributed attempts need edge rate limiting |
 | Low | Throttle state files are not pruned | One small file remains per client bucket; prune the directory periodically if hosted |
 | Low | `/hash-recovery` is unauthenticated | Work per request is bounded; edge rate limiting is recommended if hosted |
 | Info | Repository license for the 2026 changes is undeclared | Awaiting an owner decision |
+
+## Resolved after the audit
+
+| Severity | Item | Resolution |
+| --- | --- | --- |
+| Low | Removed files, including a published course demo credential, remained in Git history | Resolved by the 2026-11-24 history rewrite: pre-2026 commits are no longer in any branch or tag. Old commits may remain reachable by direct SHA on GitHub until unreferenced objects are purged. The value is a public course sample, must be treated as compromised, and must never be reused |
 
 ## Verification
 

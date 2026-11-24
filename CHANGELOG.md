@@ -2,7 +2,15 @@
 
 This project follows [Semantic Versioning](https://semver.org/).
 
-## [1.0.0] - Unreleased
+## [1.0.1] - 2026-11-24
+
+Documentation corrections only. No change to code behaviour.
+
+### Changed
+
+- Release notes, changelog, notice, and security audit now reflect the published 1.0.0 release and the 2026-11-24 rewrite of the public Git history, which no longer contains the 2018 files.
+
+## [1.0.0] - 2026-11-24
 
 ### Added
 
@@ -31,7 +39,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ### Removed
 
-- `rps.zip` and the original single-file scripts, which remain in Git history.
+- `rps.zip` and the original single-file scripts.
 
 ## Pre-1.0 - 2018
 
