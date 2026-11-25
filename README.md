@@ -1,4 +1,4 @@
-# php
+# php-web-exercises
 
 Three classic PHP web exercises rebuilt as one small, typed, security-hardened application for PHP 8.4+.
 
